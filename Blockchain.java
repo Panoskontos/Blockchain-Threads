@@ -8,7 +8,7 @@ public class Blockchain {
 
     public Blockchain() {
         this.blocks = new LinkedList<>();
-        this.prefix = 4;
+        this.prefix = 3;
     }
 
     public void GenesisBlock() {
@@ -25,4 +25,18 @@ public class Blockchain {
         }
     }
 
+    public void addBlock(Block block) {
+        if (block != null) {
+            block.mineBlock(this.prefix);
+            blocks.add(block);
+        }
+    }
+
+    public List<Block> getBlocks() {
+        return blocks;
+    }
+
+    public int getPrefix() {
+        return prefix;
+    }
 }
