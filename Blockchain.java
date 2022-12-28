@@ -14,7 +14,9 @@ public class Blockchain {
     public void GenesisBlock() {
 
         if (this.blocks.isEmpty()) {
-            Block genesisBlock = new Block("0", "Data for the first block", new Date().getTime());
+            ProductData p1 = new ProductData(1,"1222","pizza");
+
+            Block genesisBlock = new Block("0", p1, new Date().getTime());
 
             if (genesisBlock != null) {
                 genesisBlock.mineBlock(this.prefix);

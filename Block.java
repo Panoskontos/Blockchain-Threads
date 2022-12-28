@@ -5,12 +5,12 @@ import java.security.NoSuchAlgorithmException;
 public class Block {
     private String hash;
     private String previousHash;
-    private String data;
+    private ProductData data;
     private long timeStamp;
     private int nonce;
 
 
-    public Block(String previousHash, String data, long timeStamp) {
+    public Block(String previousHash, ProductData data, long timeStamp) {
         this.previousHash = previousHash;
         this.data = data;
         this.timeStamp = timeStamp;
