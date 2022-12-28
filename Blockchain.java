@@ -29,8 +29,28 @@ public class Blockchain {
         if (block != null) {
             block.mineBlock(this.prefix);
             blocks.add(block);
+            System.out.println("Node "+this.blocks.size()+" created!");
         }
     }
+
+    public boolean isChainValid() {
+        Block currentBlock;
+        Block previousBlock;
+        for (int i = 1; i < this.blocks.size(); i++) {
+            currentBlock = this.blocks.get(i);
+            previousBlock = this.blocks.get(i - 1);
+
+            if (!currentBlock.getHash().equals(currentBlock.calculateBlockHash())) {
+                return false;
+            }
+
+            if (!previousBlock.getHash().equals(currentBlock.getPreviousHash())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 
     public List<Block> getBlocks() {
         return blocks;

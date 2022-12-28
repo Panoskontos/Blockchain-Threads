@@ -14,6 +14,10 @@ public class Main
         Block myblock = new Block(b1.getBlocks().get(b1.getBlocks().size()-1).getHash(),"Data for second",new Date().getTime());
         b1.addBlock(myblock);
 
+//        Block fakeblock = new Block("dsfssdfsd","Data for second",new Date().getTime());
+//        b1.addBlock(fakeblock);
+
         System.out.println(b1.getBlocks());
+        System.out.println(b1.isChainValid());
     }
 }
