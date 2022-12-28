@@ -8,6 +8,5 @@ public class Main
         db.insert("block","Panos", 20000);
         db.selectAll("block");
 
-
     }
 }

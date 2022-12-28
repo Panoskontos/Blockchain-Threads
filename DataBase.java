@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 
 public class DataBase {
     public static void createNewTable(String newname) {
-        String url = "jdbc:sqlite:sample.db";
+        String url = "jdbc:sqlite:src/sample.db";
 
         // SQL statement for creating a new table
         String sql = "CREATE TABLE IF NOT EXISTS " +newname+ " (\n"
@@ -26,7 +26,7 @@ public class DataBase {
     }
     private Connection connect() {
 
-        String url = "jdbc:sqlite:sample.db";
+        String url = "jdbc:sqlite:src/sample.db";
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(url);
