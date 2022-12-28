@@ -5,8 +5,11 @@ public class Main
 
         DataBase db = new DataBase();
         db.createNewTable("block");
-        db.insert("block","Panos", 20000);
+//        db.insert("block","Panos", 20000);
         db.selectAll("block");
+
+        Blockchain b1 = new Blockchain();
+        b1.GenesisBlock();
 
     }
 }
