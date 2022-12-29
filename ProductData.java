@@ -66,9 +66,10 @@ public class ProductData {
         return title;
     }
 
-    public void incrementAA(){
-        this.AA++;
-    }
 
+    @Override
+    public String toString() {
+        return "Product with AA: "+this.AA+" Code: "+this.code+" Title: "+this.title+" Price: "+this.price;
+    }
 }
 

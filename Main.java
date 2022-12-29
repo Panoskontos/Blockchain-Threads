@@ -29,10 +29,13 @@ public class Main
 //        b1.addBlock(fakeblock);
 
 
-        System.out.println(b1.getBlocks().get(0).getData().getAA());
-        System.out.println(b1.getBlocks().get(1).getData().getAA());
-        System.out.println(b1.getBlocks().get(0).getData().getPrice());
-        System.out.println(b1.getBlocks().get(1).getData().getPrice());
+//        System.out.println(b1.getBlocks().get(0).getData().getAA());
+//        System.out.println(b1.getBlocks().get(1).getData().getAA());
+//        System.out.println(b1.getBlocks().get(0).getData().getPrice());
+//        System.out.println(b1.getBlocks().get(1).getData().getPrice());
+
+        System.out.println(b1.getBlocks().get(0).getData().toString());
+        System.out.println(b1.getBlocks().get(1).getData().toString());
 
         System.out.println(b1.getBlocks());
         System.out.println(b1.isChainValid());
