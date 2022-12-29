@@ -7,23 +7,50 @@ public class Blockchain {
     private List<Block> blocks;
     private int prefix;
 
+    private DataBase db;
+
     public Blockchain() {
         this.blocks = new LinkedList<>();
         this.prefix = 3;
+//       connect and interact with sqlitte
+        this.db = new DataBase();
+        db.createNewTable("block");
+//        db.selectAll("block");
+//        db.countAll("block");
     }
 
     public void GenesisBlock() {
-
-        if (this.blocks.isEmpty()) {
-            ProductData p1 = new ProductData(1,"1222","pizza",new Date().getTime(),20,"the best food","fast food");
-
+        DataBase db = this.db;
+        int rows = db.countAll("block");
+        if (this.blocks.isEmpty() && rows==0) {
+            ProductData p1 = new ProductData(1,"0","genesis",new Date().getTime(),20,"none","none");
             Block genesisBlock = new Block("0", p1, new Date().getTime());
+            if (genesisBlock != null) {
+                genesisBlock.mineBlock(this.prefix);
+                blocks.add(genesisBlock);
+                db.insert("block",
+                        "0",
+                        1,p1.getCode(),
+                        p1.getTitle(),
+                        p1.getTimeStamp(),
+                        p1.getPrice(),
+                        p1.getDescription(),
+                        p1.getCategory(),
+                        p1.getPreviousAA(),
+                        genesisBlock.getHash()
+                        );
+            }
+            }
 
+//        don't add to the db
+        if (this.blocks.isEmpty() && rows>0) {
+            ProductData p1 = new ProductData(1,"0","genesis",new Date().getTime(),20,"none","none");
+            Block genesisBlock = new Block("0", p1, new Date().getTime());
             if (genesisBlock != null) {
                 genesisBlock.mineBlock(this.prefix);
                 blocks.add(genesisBlock);
             }
-            }
+        }
             System.out.println("Node "+this.blocks.size()+" created!");
         }
 
@@ -44,12 +71,25 @@ public class Blockchain {
     public void addBlock(Block block) {
         // Get Last Block of the product
         Block searchProduct = searchIfProductExists(block.getData().getCode());
+        DataBase db = this.db;
 
         if(searchProduct==null) {
             System.out.println("Product doesn't exist");
             if (block != null) {
                 block.mineBlock(this.prefix);
                 blocks.add(block);
+                db.insert("block",
+                        block.getPreviousHash(),
+                        block.getData().getAA(),
+                        block.getData().getCode(),
+                        block.getData().getTitle(),
+                        block.getData().getTimeStamp(),
+                        block.getData().getPrice(),
+                        block.getData().getDescription(),
+                        block.getData().getCategory(),
+                        block.getData().getPreviousAA(),
+                        block.getHash()
+                        );
                 System.out.println("Node "+this.blocks.size()+" created!");
             }
 
@@ -68,6 +108,18 @@ public class Blockchain {
             Block newBlock = new Block(block.getPreviousHash(), p2, new Date().getTime());
             newBlock.mineBlock(this.prefix);
             blocks.add(newBlock);
+            db.insert("block",
+                    newBlock.getPreviousHash(),
+                    newBlock.getData().getAA(),
+                    newBlock.getData().getCode(),
+                    newBlock.getData().getTitle(),
+                    newBlock.getData().getTimeStamp(),
+                    newBlock.getData().getPrice(),
+                    newBlock.getData().getDescription(),
+                    newBlock.getData().getCategory(),
+                    newBlock.getData().getPreviousAA(),
+                    newBlock.getHash()
+                        );
             System.out.println("Node "+this.blocks.size()+" created!");
 
         }
