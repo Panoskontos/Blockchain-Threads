@@ -61,5 +61,7 @@ public class Block {
         return nonce;
     }
 
-
+    public ProductData getData() {
+        return data;
+    }
 }
