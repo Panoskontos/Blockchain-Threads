@@ -1,4 +1,5 @@
 import java.util.Date;
+import java.util.List;
 import java.util.Scanner;  // Import the Scanner class
 
 public class Main
@@ -41,15 +42,35 @@ public class Main
         }
 
 
+
+//        Searching by name or code
         System.out.println("Are any products you want to search?\nSearch product\n 1. by name\n 2. by code\n 3. don't want to search");
         int search = myObj.nextInt();  // Read user input
         if(search==1){
 //            search by name
+            System.out.println("Enter name");
+            String search_name = myObj.next();
+            List<Block> result = b1.searchByName(search_name);
+            if (result!=null){
+                result.stream().forEach(j->{System.out.println(j.getData().toString());});
+            }
         }
         if(search==2){
 //            search by code
+            System.out.println("Enter code");
+            String search_code = myObj.next();
+            Block result = b1.searchByCode(search_code);
+            if (result!=null){
+                System.out.println(result.getData().toString());
+            }
+
         }
 
+
+
+        //        Searching by name or code
+        System.out.println("");
+        int table_desicion = myObj.nextInt();  // Read user input
 
 //        Block myblock = new Block(b1.getBlocks().get(b1.getBlocks().size()-1).getHash(),"Data for second",new Date().getTime());
 //        b1.addBlock(myblock);
@@ -61,7 +82,7 @@ public class Main
 //        b1.addBlock(fakeblock);
 
 
-
+        System.out.println("\n\ntests");
         System.out.println(b1.getBlocks());
         System.out.println(b1.isChainValid());
     }

@@ -1,6 +1,8 @@
 import java.util.Date;
 import java.util.List;
 import java.util.LinkedList;
+import java.util.Scanner;  // Import the Scanner class
+
 import java.util.Objects;
 
 public class Blockchain {
@@ -66,6 +68,62 @@ public class Blockchain {
             }
         }
         return null;
+    }
+
+    public Block searchByCode(String code){
+        Scanner myObj = new Scanner(System.in);  // Create a Scanner object
+        System.out.println("Do you want to search for\n 1. Oldest Block\n 2. Newest Block ");
+        int count = myObj.nextInt();  // Read user input
+        if(count==2){
+            Block previousBlock;
+            for (int i = this.blocks.size()-1; i >= 0; i--) {
+                previousBlock = this.blocks.get(i);
+
+                if(previousBlock.getData().getCode().equals(code)){
+                    System.out.println(previousBlock);
+                    return previousBlock;
+                }
+            }
+            return null;
+        }
+        if(count==1) {
+            Block nextBlock;
+            for (int i =0 ; i < this.blocks.size(); i++) {
+                nextBlock = this.blocks.get(i);
+
+                if(nextBlock.getData().getCode().equals(code)){
+                    System.out.println(nextBlock);
+                    return nextBlock;
+                }
+            }
+            return null;
+        }
+
+        return null;
+    }
+
+
+    public List<Block> searchByName(String name){
+            List<Block> myblocks = new LinkedList<>();
+            Block previousBlock;
+            for (int i = this.blocks.size()-1; i >= 0; i--) {
+                previousBlock = this.blocks.get(i);
+
+                if(previousBlock.getData().getTitle().contains(name)){
+                    System.out.println(previousBlock);
+                    myblocks.add(previousBlock);
+                }
+            }
+
+            if (myblocks.isEmpty()){
+                return null;
+            }
+            return myblocks;
+
+
+
+
+
     }
 
     public void addBlock(Block block) {
