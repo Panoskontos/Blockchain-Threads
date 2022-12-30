@@ -64,4 +64,8 @@ public class Block {
     public ProductData getData() {
         return data;
     }
+
+    public void setHash(String newhash){
+        this.hash = newhash;
+    }
 }

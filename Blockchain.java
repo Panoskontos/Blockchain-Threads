@@ -12,6 +12,10 @@ public class Blockchain {
 //       connect and interact with sqlitte
         this.db = new DataBase();
         db.createNewTable("block");
+        this.blocks = db.readDataBase("block");
+        this.blocks.stream().forEach(j->{
+            System.out.println(j.getData().toString());
+        });
 //        db.selectAll("block");
 //        db.countAll("block");
     }
@@ -38,16 +42,15 @@ public class Blockchain {
                         );
             }
             }
-
 //        don't add to the db
-        if (this.blocks.isEmpty() && rows>0) {
-            ProductData p1 = new ProductData(1,"0","genesis",new Date().getTime(),20,"none","none");
-            Block genesisBlock = new Block("0", p1, new Date().getTime());
-            if (genesisBlock != null) {
-                genesisBlock.mineBlock(this.prefix);
-                blocks.add(genesisBlock);
-            }
-        }
+//        if (this.blocks.isEmpty() && rows>0) {
+//            ProductData p1 = new ProductData(1,"0","genesis",new Date().getTime(),20,"none","none");
+//            Block genesisBlock = new Block("0", p1, new Date().getTime());
+//            if (genesisBlock != null) {
+//                genesisBlock.mineBlock(this.prefix);
+//                blocks.add(genesisBlock);
+//            }
+//        }
             System.out.println("Node "+this.blocks.size()+" created!");
         }
 
@@ -157,11 +160,11 @@ public class Blockchain {
         for (int i = 0; i < this.blocks.size(); i++) {
             nextBlock = this.blocks.get(i);
             if(nextBlock.getData().getCode().equals(code)){
-                System.out.println(nextBlock);
+//                System.out.println(nextBlock);
                 myblocks.add(nextBlock);
             }
         }
-        System.out.println(myblocks);
+        System.out.println("\n");
         List<List<String>> rows = new ArrayList<>();
         List<String> headers = Arrays.asList("Product","Date","Price");
         rows.add(headers);
@@ -243,17 +246,16 @@ public class Blockchain {
     public boolean isChainValid() {
         Block currentBlock;
         Block previousBlock;
+        String hashTarget = new String(new char[this.prefix]).replace('\0','0');
         for (int i = 1; i < this.blocks.size(); i++) {
             currentBlock = this.blocks.get(i);
             previousBlock = this.blocks.get(i - 1);
 
-            if (!currentBlock.getHash().equals(currentBlock.calculateBlockHash())) {
-                return false;
-            }
-
             if (!previousBlock.getHash().equals(currentBlock.getPreviousHash())) {
                 return false;
             }
+            if (!currentBlock.getHash().substring(0,this.prefix).equals(hashTarget))
+                return false;
         }
         return true;
     }

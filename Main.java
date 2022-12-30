@@ -14,12 +14,12 @@ public class Main
 
 //        Handle inputs
         Scanner myObj = new Scanner(System.in);  // Create a Scanner object
-        System.out.println("Enter how many products you want to add?");
+        System.out.println("\nEnter how many products you want to add?");
         int count = myObj.nextInt();  // Read user input
         System.out.println("Adding " + count+" products");  // Output user input
         int i = 0;
         while(i<count){
-            System.out.println("PLease add details for the "+(i+1)+" product");
+            System.out.println("\nPLease add details for the "+(i+1)+" product");
             System.out.println("\nEnter product code:");
             String code = myObj.next();
             System.out.println("\nEnter product price:");
@@ -44,7 +44,7 @@ public class Main
 
 
 //        Searching by name or code
-        System.out.println("Are any products you want to search?\nSearch product\n 1. by name\n 2. by code\n 3. don't want to search");
+        System.out.println("\nAre any products you want to search?\nSearch product\n 1. by name\n 2. by code\n 3. don't want to search");
         int search = myObj.nextInt();  // Read user input
         if(search==1){
 //            search by name
@@ -69,7 +69,7 @@ public class Main
 
 
         // Table
-        System.out.println("Do you want to see data about a product?\n1. Yes\n2. No");
+        System.out.println("\nDo you want to see data about a product?\n1. Yes\n2. No");
         int table_desicion = myObj.nextInt();
         if(table_desicion==1){
             System.out.println("Enter product code");
@@ -87,8 +87,11 @@ public class Main
 //        b1.addBlock(fakeblock);
 
 
-        System.out.println("\n\ntests");
+
+        System.out.println("\nPrinting all blocks");
         System.out.println(b1.getBlocks());
+        System.out.println("\n");
+        System.out.println("Is blockchain valid?");
         System.out.println(b1.isChainValid());
     }
 }

@@ -4,6 +4,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.LinkedList;
+import java.util.List;
 
 public class DataBase {
 
@@ -97,6 +99,46 @@ public class DataBase {
             System.out.println(e.getMessage());
         }
     }
+
+
+    public List<Block> readDataBase(String newname){
+        String sql = "SELECT * FROM "+newname+";";
+        try {
+            Connection conn = this.conn;
+            Statement stmt  = conn.createStatement();
+            ResultSet rs    = stmt.executeQuery(sql);
+
+            List<Block> db_blocks = new LinkedList<>();
+            // loop through the result set
+            while (rs.next()) {
+
+                ProductData p1 = new ProductData(
+                        rs.getInt("AA"),
+                        rs.getString("code"),
+                        rs.getString("title"),
+                        rs.getLong("timestamp"),
+                        rs.getInt("price"),
+                        rs.getString("description"),
+                        rs.getString("category")
+                        );
+                Block db_block  = new Block(
+                        rs.getString("previousHash"),p1
+                        , rs.getLong("timestamp"));
+
+                db_block.setHash(rs.getString("hash"));
+
+                db_blocks.add(db_block);
+                ;}
+            System.out.println("Reading database"+db_blocks);
+            return db_blocks;
+
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
 
 
     public int countAll(String newname){
