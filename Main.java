@@ -68,9 +68,14 @@ public class Main
 
 
 
-        //        Searching by name or code
-        System.out.println("");
-        int table_desicion = myObj.nextInt();  // Read user input
+        // Table
+        System.out.println("Do you want to see data about a product?\n1. Yes\n2. No");
+        int table_desicion = myObj.nextInt();
+        if(table_desicion==1){
+            System.out.println("Enter product code");
+            String table_product_code = myObj.next();
+            b1.CreateTableByCode(table_product_code);
+        }
 
 //        Block myblock = new Block(b1.getBlocks().get(b1.getBlocks().size()-1).getHash(),"Data for second",new Date().getTime());
 //        b1.addBlock(myblock);

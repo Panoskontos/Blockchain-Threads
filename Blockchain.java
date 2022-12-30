@@ -1,9 +1,4 @@
-import java.util.Date;
-import java.util.List;
-import java.util.LinkedList;
-import java.util.Scanner;  // Import the Scanner class
-
-import java.util.Objects;
+import java.util.*;
 
 public class Blockchain {
     private List<Block> blocks;
@@ -124,6 +119,64 @@ public class Blockchain {
 
 
 
+    }
+
+
+
+// method for formatting printed output
+    public static String formatAsTable(List<List<String>> rows)
+    {
+        int[] maxLengths = new int[rows.get(0).size()];
+        for (List<String> row : rows)
+        {
+            for (int i = 0; i < row.size(); i++)
+            {
+                maxLengths[i] = Math.max(maxLengths[i], row.get(i).length());
+            }
+        }
+
+        StringBuilder formatBuilder = new StringBuilder();
+        for (int maxLength : maxLengths)
+        {
+            formatBuilder.append("%-").append(maxLength + 2).append("s");
+        }
+        String format = formatBuilder.toString();
+
+        StringBuilder result = new StringBuilder();
+        for (List<String> row : rows)
+        {
+            result.append(String.format(format, row.toArray(new String[0]))).append("\n");
+        }
+        return result.toString();
+    }
+
+
+    public void CreateTableByCode(String code){
+        List<Block> myblocks = new LinkedList<>();
+        Block nextBlock;
+        for (int i = 0; i < this.blocks.size(); i++) {
+            nextBlock = this.blocks.get(i);
+            if(nextBlock.getData().getCode().equals(code)){
+                System.out.println(nextBlock);
+                myblocks.add(nextBlock);
+            }
+        }
+        System.out.println(myblocks);
+        List<List<String>> rows = new ArrayList<>();
+        List<String> headers = Arrays.asList("Product","Date","Price");
+        rows.add(headers);
+        int n = 0;
+        while (n<myblocks.size()){
+            String price = Integer.toString(myblocks.get(n).getData().getPrice())+"$";
+//            String timestamp = Long.toString(myblocks.get(n).getData().getTimeStamp());
+            Date timestamp = new Date(myblocks.get(n).getData().getTimeStamp());
+            String string_timestamp = ""+timestamp+"";
+            rows.add(Arrays.asList(
+                    myblocks.get(n).getData().getTitle()
+                    ,string_timestamp, price));
+            n++;
+        }
+        System.out.println(formatAsTable(rows));
     }
 
     public void addBlock(Block block) {
