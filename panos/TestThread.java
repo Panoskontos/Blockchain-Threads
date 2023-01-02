@@ -1,6 +1,6 @@
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+package panos;
+
+import panos.BlockchainThread;
 
 public class TestThread {
     public static void main(String[] args) {
@@ -9,6 +9,12 @@ public class TestThread {
 
         BlockchainThread b1 = new BlockchainThread();
         b1.GenesisBlock();
-        b1.isChainValid();
+        System.out.println(b1.isChainValid());
+
+
+
+//        Create a search method with threads
+
+
     }
 }

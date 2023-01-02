@@ -1,3 +1,5 @@
+package panos;
+
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -12,12 +14,12 @@ public class BlockchainThread {
         this.blocks = new LinkedList<>();
         this.prefix = 5;
 //       connect and interact with sqlitte
-//        this.db = new DataBase();
-//        db.createNewTable("block");
-//        this.blocks = db.readDataBase("block");
-//        this.blocks.stream().forEach(j->{
-//            System.out.println(j.getData().toString());
-//        });
+        this.db = new DataBase();
+        db.createNewTable("block");
+        this.blocks = db.readDataBase("block");
+        this.blocks.stream().forEach(j->{
+            System.out.println(j.getData().toString());
+        });
 //        db.selectAll("block");
 //        db.countAll("block");
     }
@@ -251,14 +253,14 @@ public class BlockchainThread {
 //        for (int threadCount : threadCounts) {
 //            ExecutorService executor = Executors.newFixedThreadPool(threadCount);
 //            long startTime = System.nanoTime();
-//            executor.execute(new ChainValidThreadTask(executor,this.blocks,this.prefix));
+//            executor.execute(new panos.ChainValidThreadTask(executor,this.blocks,this.prefix));
 //            long endTime = System.nanoTime();
 //            long elapsedTime = endTime - startTime;
 //            System.out.println("Thread count: " + threadCount + ", elapsed time: " + elapsedTime + " ns");
 //        }
 
 
-        ExecutorService executor = Executors.newFixedThreadPool(50);
+        ExecutorService executor = Executors.newFixedThreadPool(30);
         ChainValidThreadTask m1 = new ChainValidThreadTask(executor,this.blocks,this.prefix);
         executor.execute(m1);
         return m1.isAnswer();

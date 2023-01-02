@@ -1,3 +1,5 @@
+package panos;
+
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -30,7 +32,7 @@ public class BlockThread {
 //        for (int threadCount : threadCounts) {
 //            ExecutorService executor = Executors.newFixedThreadPool(threadCount);
 //            long startTime = System.nanoTime();
-//            executor.execute(new MineThreadTask(executor,this.previousHash,this.data, this.timeStamp,prefix));
+//            executor.execute(new panos.MineThreadTask(executor,this.previousHash,this.data, this.timeStamp,prefix));
 //            long endTime = System.nanoTime();
 //            long elapsedTime = endTime - startTime;
 //            System.out.println("Thread count: " + threadCount + ", elapsed time: " + elapsedTime + " ns");
