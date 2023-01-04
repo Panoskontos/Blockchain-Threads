@@ -1,4 +1,4 @@
-package panos;
+package panos_App_2;
 
 public class ProductData {
     private int AA;

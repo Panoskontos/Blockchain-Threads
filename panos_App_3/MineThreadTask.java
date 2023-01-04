@@ -1,20 +1,44 @@
+package panos_App_3;
+
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.concurrent.ExecutorService;
 
-public class Block {
+public class MineThreadTask implements Runnable {
+
+    private final int prefix;
     private String hash;
     private String previousHash;
     private ProductData data;
     private long timeStamp;
     private int nonce;
+    private ExecutorService executor;
+
+    private String result;
 
 
-    public Block(String previousHash, ProductData data, long timeStamp) {
+    public MineThreadTask(ExecutorService executor, String previousHash, ProductData data, long timeStamp, int prefix) {
+        this.executor = executor;
         this.previousHash = previousHash;
         this.data = data;
         this.timeStamp = timeStamp;
         this.hash = calculateBlockHash();
+        this.prefix = prefix;
+    }
+    @Override
+    public void run() {
+//        this.result = mineBlock(this.prefix);
+//        System.out.println(this.result);
+        String prefixString =
+                new String(new char[this.prefix]).replace('\0','0');
+        while (!hash.substring(0,this.prefix).equals(prefixString)){
+            nonce++;
+            hash = calculateBlockHash();
+        }
+        this.result = hash;
+        executor.shutdown();
+//        mining doesn't work correctly
     }
 
     public String mineBlock(int prefix){
@@ -24,7 +48,12 @@ public class Block {
             nonce++;
             hash = calculateBlockHash();
         }
+
         return hash;
+    }
+
+    public String getResult() {
+        return result;
     }
 
     public String calculateBlockHash(){
@@ -45,27 +74,7 @@ public class Block {
         return builder.toString();
     }
 
-    public String getPreviousHash() {
-        return previousHash;
-    }
-
     public String getHash() {
         return hash;
-    }
-
-    public long getTimeStamp() {
-        return timeStamp;
-    }
-
-    public int getNonce() {
-        return nonce;
-    }
-
-    public ProductData getData() {
-        return data;
-    }
-
-    public void setHash(String newhash){
-        this.hash = newhash;
     }
 }

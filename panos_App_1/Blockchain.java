@@ -1,3 +1,7 @@
+package panos_App_1;
+
+import panos_App_1.Block;
+
 import java.util.*;
 
 public class Blockchain {
@@ -44,8 +48,8 @@ public class Blockchain {
             }
 //        don't add to the db
 //        if (this.blocks.isEmpty() && rows>0) {
-//            ProductData p1 = new ProductData(1,"0","genesis",new Date().getTime(),20,"none","none");
-//            Block genesisBlock = new Block("0", p1, new Date().getTime());
+//            panos_App_1.ProductData p1 = new panos_App_1.ProductData(1,"0","genesis",new Date().getTime(),20,"none","none");
+//            panos_App_1.Block genesisBlock = new panos_App_1.Block("0", p1, new Date().getTime());
 //            if (genesisBlock != null) {
 //                genesisBlock.mineBlock(this.prefix);
 //                blocks.add(genesisBlock);
@@ -70,7 +74,7 @@ public class Blockchain {
 
     public Block searchByCode(String code){
         Scanner myObj = new Scanner(System.in);  // Create a Scanner object
-        System.out.println("Do you want to search for\n 1. Oldest Block\n 2. Newest Block ");
+        System.out.println("Do you want to search for\n 1. Oldest panos_App_1.Block\n 2. Newest panos_App_1.Block ");
         int count = myObj.nextInt();  // Read user input
         if(count==2){
             Block previousBlock;
@@ -183,7 +187,7 @@ public class Blockchain {
     }
 
     public void addBlock(Block block) {
-        // Get Last Block of the product
+        // Get Last panos_App_1.Block of the product
         Block searchProduct = searchIfProductExists(block.getData().getCode());
         DataBase db = this.db;
 
@@ -252,10 +256,14 @@ public class Blockchain {
             previousBlock = this.blocks.get(i - 1);
 
             if (!previousBlock.getHash().equals(currentBlock.getPreviousHash())) {
+                System.out.println("false for equality of hashes");
                 return false;
             }
-            if (!currentBlock.getHash().substring(0,this.prefix).equals(hashTarget))
+            if (!currentBlock.getHash().substring(0,this.prefix).equals(hashTarget)){
+                System.out.println("false for hash target 000");
                 return false;
+            }
+
         }
         return true;
     }

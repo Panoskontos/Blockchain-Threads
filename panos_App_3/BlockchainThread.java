@@ -1,8 +1,9 @@
-package panos;
+package panos_App_3;
 
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class BlockchainThread {
     private List<BlockThread> blocks;
@@ -12,7 +13,7 @@ public class BlockchainThread {
 
     public BlockchainThread() {
         this.blocks = new LinkedList<>();
-        this.prefix = 5;
+        this.prefix = 3;
 //       connect and interact with sqlitte
         this.db = new DataBase();
         db.createNewTable("block");
@@ -48,8 +49,8 @@ public class BlockchainThread {
         }
 //        don't add to the db
 //        if (this.blocks.isEmpty() && rows>0) {
-//            ProductData p1 = new ProductData(1,"0","genesis",new Date().getTime(),20,"none","none");
-//            Block genesisBlock = new Block("0", p1, new Date().getTime());
+//            panos_App_1.ProductData p1 = new panos_App_1.ProductData(1,"0","genesis",new Date().getTime(),20,"none","none");
+//            panos_App_1.Block genesisBlock = new panos_App_1.Block("0", p1, new Date().getTime());
 //            if (genesisBlock != null) {
 //                genesisBlock.mineBlock(this.prefix);
 //                blocks.add(genesisBlock);
@@ -74,57 +75,43 @@ public class BlockchainThread {
 
     public BlockThread searchByCode(String code){
         Scanner myObj = new Scanner(System.in);  // Create a Scanner object
-        System.out.println("Do you want to search for\n 1. Oldest Block\n 2. Newest Block ");
-        int count = myObj.nextInt();  // Read user input
-        if(count==2){
-            BlockThread previousBlock;
-            for (int i = this.blocks.size()-1; i >= 0; i--) {
-                previousBlock = this.blocks.get(i);
-
-                if(previousBlock.getData().getCode().equals(code)){
-                    System.out.println(previousBlock);
-                    return previousBlock;
-                }
-            }
-            return null;
+        System.out.println("Do you want to search for\n 1. Oldest panos_App_1.Block\n 2. Newest panos_App_1.Block ");
+        int count = myObj.nextInt();  // Read user
+        int threadCount = 4;
+        Thread[] threads = new Thread[threadCount];
+        for (int i = 0; i < threadCount; i++) {
+            threads[i] = new SearchByCodeCustomThread(i + 1,this.blocks,code,count);
+            threads[i].start();
         }
-        if(count==1) {
-            BlockThread nextBlock;
-            for (int i =0 ; i < this.blocks.size(); i++) {
-                nextBlock = this.blocks.get(i);
-
-                if(nextBlock.getData().getCode().equals(code)){
-                    System.out.println(nextBlock);
-                    return nextBlock;
-                }
-            }
-            return null;
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            System.out.println("");;
         }
-
         return null;
+//
     }
 
 
     public List<BlockThread> searchByName(String name){
-        List<BlockThread> myblocks = new LinkedList<>();
-        BlockThread previousBlock;
-        for (int i = this.blocks.size()-1; i >= 0; i--) {
-            previousBlock = this.blocks.get(i);
-
-            if(previousBlock.getData().getTitle().contains(name)){
-                System.out.println(previousBlock);
-                myblocks.add(previousBlock);
-            }
+        int threadCount = 4;
+        Thread[] threads = new Thread[threadCount];
+        for (int i = 0; i < threadCount; i++) {
+            threads[i] = new SearchByNameCustomThread(i + 1,this.blocks,name);
+            threads[i].start();
         }
-
-        if (myblocks.isEmpty()){
-            return null;
+        try {
+            TimeUnit.SECONDS.sleep(2);
+        } catch (InterruptedException e) {
+            System.out.println("");;
         }
-        return myblocks;
+        return null;
 
 
-
-
+//        ExecutorService executor = Executors.newFixedThreadPool(30);
+//        SearchByNameThreadTask m1 = new SearchByNameThreadTask(executor,this.blocks,name);
+//        executor.execute(m1);
+//        return m1.getBlockWereNamewasFound();
 
     }
 
@@ -187,7 +174,7 @@ public class BlockchainThread {
     }
 
     public void addBlock(BlockThread block) {
-        // Get Last Block of the product
+        // Get Last panos_App_1.Block of the product
         BlockThread searchProduct = searchIfProductExists(block.getData().getCode());
         DataBase db = this.db;
 
@@ -248,18 +235,6 @@ public class BlockchainThread {
     }
 
     public boolean isChainValid() {
-//        testing on differenet threads
-//        int[] threadCounts = {1, 2, 4, 8, 16,20,30,40,50};
-//        for (int threadCount : threadCounts) {
-//            ExecutorService executor = Executors.newFixedThreadPool(threadCount);
-//            long startTime = System.nanoTime();
-//            executor.execute(new panos.ChainValidThreadTask(executor,this.blocks,this.prefix));
-//            long endTime = System.nanoTime();
-//            long elapsedTime = endTime - startTime;
-//            System.out.println("Thread count: " + threadCount + ", elapsed time: " + elapsedTime + " ns");
-//        }
-
-
         ExecutorService executor = Executors.newFixedThreadPool(30);
         ChainValidThreadTask m1 = new ChainValidThreadTask(executor,this.blocks,this.prefix);
         executor.execute(m1);

@@ -1,14 +1,17 @@
+package panos_App_2;
+
 import java.util.Date;
 import java.util.List;
-import java.util.Scanner;  // Import the Scanner class
+import java.util.Scanner;
 
-public class Main
-{
+public class App2 {
     public static void main(String[] args) {
 
-//        create the blockchain
-        Blockchain b1 = new Blockchain();
+// Initializing Blockchain
+        BlockchainThread b1 = new BlockchainThread();
         b1.GenesisBlock();
+        System.out.println(b1.isChainValid());
+
 
 
 
@@ -29,11 +32,12 @@ public class Main
             System.out.println("\nEnter product category:");
             String cat = myObj.next();
             System.out.println("\nEnter product description:");
+            System.out.println("\n");
             String desc = myObj.next();
 
 
             ProductData p1 = new ProductData(1,code,title,new Date().getTime(),price,desc,cat);
-            Block nextBlock = new Block(b1.getBlocks().get(b1.getBlocks().size()-1).getHash(), p1, new Date().getTime());
+            BlockThread nextBlock = new BlockThread(b1.getBlocks().get(b1.getBlocks().size()-1).getHash(), p1, new Date().getTime());
             b1.addBlock(nextBlock);
 
 
@@ -43,32 +47,33 @@ public class Main
 
 
 
-//        Searching by name or code
+
+//        Handle Search
         System.out.println("\nAre any products you want to search?\nSearch product\n 1. by name\n 2. by code\n 3. don't want to search");
         int search = myObj.nextInt();  // Read user input
         if(search==1){
 //            search by name
             System.out.println("Enter name");
             String search_name = myObj.next();
-            List<Block> result = b1.searchByName(search_name);
-            if (result!=null){
-                result.stream().forEach(j->{System.out.println(j.getData().toString());});
-            }
+            List<BlockThread> result = b1.searchByName(search_name);
+//            if (result!=null){
+//                result.stream().forEach(j->{System.out.println(j.getData().toString());});
+//                System.out.println(result);
+//            }
         }
         if(search==2){
 //            search by code
             System.out.println("Enter code");
             String search_code = myObj.next();
-            Block result = b1.searchByCode(search_code);
-            if (result!=null){
-                System.out.println(result.getData().toString());
-            }
+            BlockThread result = b1.searchByCode(search_code);
+//            if (result!=null){
+//                System.out.println(result.getData().toString());
+//            }
 
         }
 
 
-
-        // Table
+        // Handle Table
         System.out.println("\nDo you want to see data about a product?\n1. Yes\n2. No");
         int table_desicion = myObj.nextInt();
         if(table_desicion==1){
@@ -77,21 +82,13 @@ public class Main
             b1.CreateTableByCode(table_product_code);
         }
 
-//        Block myblock = new Block(b1.getBlocks().get(b1.getBlocks().size()-1).getHash(),"Data for second",new Date().getTime());
-//        b1.addBlock(myblock);
-
-
-
-//        test for fake blocks
-//        Block fakeblock = new Block("dsfssdfsd","Data for second",new Date().getTime());
-//        b1.addBlock(fakeblock);
-
-
 
         System.out.println("\nPrinting all blocks");
         System.out.println(b1.getBlocks());
         System.out.println("\n");
         System.out.println("Is blockchain valid?");
         System.out.println(b1.isChainValid());
+
+
     }
 }

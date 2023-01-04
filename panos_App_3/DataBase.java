@@ -1,4 +1,4 @@
-package panos;
+package panos_App_3;
 
 import java.sql.*;
 import java.util.LinkedList;

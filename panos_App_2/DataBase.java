@@ -1,9 +1,6 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+package panos_App_2;
+
+import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -101,14 +98,14 @@ public class DataBase {
     }
 
 
-    public List<Block> readDataBase(String newname){
+    public List<BlockThread> readDataBase(String newname){
         String sql = "SELECT * FROM "+newname+";";
         try {
             Connection conn = this.conn;
             Statement stmt  = conn.createStatement();
             ResultSet rs    = stmt.executeQuery(sql);
 
-            List<Block> db_blocks = new LinkedList<>();
+            List<BlockThread> db_blocks = new LinkedList<>();
             // loop through the result set
             while (rs.next()) {
 
@@ -121,7 +118,7 @@ public class DataBase {
                         rs.getString("description"),
                         rs.getString("category")
                         );
-                Block db_block  = new Block(
+                BlockThread db_block  = new BlockThread(
                         rs.getString("previousHash"),p1
                         , rs.getLong("timestamp"));
 

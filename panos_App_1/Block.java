@@ -1,12 +1,10 @@
-package panos;
+package panos_App_1;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
-public class BlockThread {
+public class Block {
     private String hash;
     private String previousHash;
     private ProductData data;
@@ -14,35 +12,21 @@ public class BlockThread {
     private int nonce;
 
 
-
-
-    public BlockThread(String previousHash, ProductData data, long timeStamp) {
+    public Block(String previousHash, ProductData data, long timeStamp) {
         this.previousHash = previousHash;
         this.data = data;
         this.timeStamp = timeStamp;
         this.hash = calculateBlockHash();
-
     }
 
-//    mining using threadpools
     public String mineBlock(int prefix){
-
-//        testing on differenet threads
-//        int[] threadCounts = {1, 2, 4, 8, 16,20,30,40,50};
-//        for (int threadCount : threadCounts) {
-//            ExecutorService executor = Executors.newFixedThreadPool(threadCount);
-//            long startTime = System.nanoTime();
-//            executor.execute(new panos.MineThreadTask(executor,this.previousHash,this.data, this.timeStamp,prefix));
-//            long endTime = System.nanoTime();
-//            long elapsedTime = endTime - startTime;
-//            System.out.println("Thread count: " + threadCount + ", elapsed time: " + elapsedTime + " ns");
-//        }
-
-
-        ExecutorService executor = Executors.newFixedThreadPool(4);
-        MineThreadTask m1 = new MineThreadTask(executor,this.previousHash,this.data, this.timeStamp,prefix);
-        executor.execute(m1);
-        return m1.getHash();
+        String prefixString =
+                new String(new char[prefix]).replace('\0','0');
+        while (!hash.substring(0,prefix).equals(prefixString)){
+            nonce++;
+            hash = calculateBlockHash();
+        }
+        return hash;
     }
 
     public String calculateBlockHash(){
@@ -87,4 +71,3 @@ public class BlockThread {
         this.hash = newhash;
     }
 }
-

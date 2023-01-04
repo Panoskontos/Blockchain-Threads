@@ -1,4 +1,4 @@
-package panos;
+package panos_App_2;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -15,6 +15,8 @@ public class MineThreadTask implements Runnable {
     private int nonce;
     private ExecutorService executor;
 
+    private String result;
+
 
     public MineThreadTask(ExecutorService executor, String previousHash, ProductData data, long timeStamp, int prefix) {
         this.executor = executor;
@@ -26,8 +28,17 @@ public class MineThreadTask implements Runnable {
     }
     @Override
     public void run() {
-        mineBlock(this.prefix);
+//        this.result = mineBlock(this.prefix);
+//        System.out.println(this.result);
+        String prefixString =
+                new String(new char[this.prefix]).replace('\0','0');
+        while (!hash.substring(0,this.prefix).equals(prefixString)){
+            nonce++;
+            hash = calculateBlockHash();
+        }
+        this.result = hash;
         executor.shutdown();
+//        mining doesn't work correctly
     }
 
     public String mineBlock(int prefix){
@@ -37,8 +48,14 @@ public class MineThreadTask implements Runnable {
             nonce++;
             hash = calculateBlockHash();
         }
+
         return hash;
     }
+
+    public String getResult() {
+        return result;
+    }
+
     public String calculateBlockHash(){
         String dataToHash = previousHash + Long.toString(timeStamp)
                 +data+Integer.toString(nonce);
