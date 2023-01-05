@@ -45,6 +45,7 @@ public class App
 
 
 
+//        Handle Search
 //        Searching by name or code
         System.out.println("\nAre any products you want to search?\nSearch product\n 1. by name\n 2. by code\n 3. don't want to search");
         int search = myObj.nextInt();  // Read user input
@@ -70,7 +71,7 @@ public class App
 
 
 
-        // Table
+        // Handle Table
         System.out.println("\nDo you want to see data about a product?\n1. Yes\n2. No");
         int table_desicion = myObj.nextInt();
         if(table_desicion==1){
@@ -90,6 +91,7 @@ public class App
 
 
 
+//        Print Blocks and Blockchain Validity
         System.out.println("\nPrinting all blocks");
         System.out.println(b1.getBlocks());
         System.out.println("\n");
