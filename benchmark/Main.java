@@ -14,6 +14,7 @@ public class Main {
     }
 
     @Benchmark
+    @BenchmarkMode(Mode.AverageTime)
     public void test_apps(){
 
 //        10 products created
@@ -22,8 +23,8 @@ public class Main {
 //        492 products created
 //        panos_App_2.test_App2.test();
 
-//        4 products created and then Error
-        panos_App_3.test_App3.test();
+//        5 products created and then Error
+//        panos_App_3.test_App3.test();
     }
 
 

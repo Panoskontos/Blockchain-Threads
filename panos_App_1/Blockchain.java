@@ -112,7 +112,7 @@ public class Blockchain {
                 previousBlock = this.blocks.get(i);
 
                 if(previousBlock.getData().getTitle().contains(name)){
-                    System.out.println(previousBlock);
+//                    System.out.println(previousBlock);
                     myblocks.add(previousBlock);
                 }
             }
